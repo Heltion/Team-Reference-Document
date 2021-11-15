@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{color}
+\pagestyle{fancy}
+\fancyhead[L]{Team Reference Document}
+\fancyhead[R]{\thepage}
+\fancyfoot{}
+\lstset{
+    language     = C++,
+    basicstyle   = \tt\scriptsize,
+    frame        = shadowbox,
+    numbers      = left,
+    breaklines   = true,
+    keywordstyle = \color{blue},
+    commentstyle = \color{red}
+}
+\begin{document}
+\title{Programming Contest Template Libary}
+\author{Heltion}
+\maketitle
+\newpage
+\tableofcontents
+\newpage
+\section{Misc}
+    \subsection{Makefile}
+        \lstinputlisting{src/misc/Makefile}
+    \subsection{Template}
+        \lstinputlisting{src/misc/template.cpp}
+\section{Data Struture}
+    \subsection{Treap}
+        \lstinputlisting{src/data structure/treap.cpp}
+    \subsection{Cartesian Tree}
+        \lstinputlisting{src/data structure/cartesian tree.cpp}
+    \subsection{Convex Hull(Line Add Get Max)}
+        \lstinputlisting{src/data structure/lines.cpp}
+    \subsection{Link Cut Tree(Subtree Add Subtree Sum)}
+        \lstinputlisting{src/data structure/lct.cpp}
+    \subsection{Segment Beats!}
+        \lstinputlisting{src/data structure/segment beats!.cpp}
+\section{Graph}
+    \subsection{Euler Circuit}
+        \lstinputlisting{src/graph/euler.cpp}
+    \subsection{Articulation Points}
+        \lstinputlisting{src/graph/articulation.cpp}
+    \subsection{Strongly Connected Component(Kosaraju)}
+        \lstinputlisting{src/graph/kosaraju.cpp}
+    \subsection{Dominator Tree(Lengauer-Tarjan)}
+        \lstinputlisting{src/graph/dominator.cpp}
+    \subsection{K-shortest Paths}
+        \lstinputlisting{src/graph/kwalk.cpp}
+    \subsection{Directed Minimum Spanning Tree}
+        Time complexity: unknown.
+        \lstinputlisting{src/graph/mst.cpp}
+    \subsection{Flow and Matching}
+        \subsubsection{Maximum Flow(Dinic)}
+            Time complexity: $O(n^2m)$.
+            \lstinputlisting{src/graph/dinic.cpp}
+        \subsubsection{Maximum Flow(Push Relabel)}
+            Time complexity: $O(n^2\sqrt m)$.
+            \lstinputlisting{src/graph/push.cpp}
+        \subsubsection{Minimum Cost Maximum Flow(Dijkstra)}
+            \lstinputlisting{src/graph/mfmc.cpp}
+        \subsubsection{Bipartite Matching(Hopcroft Karp)}
+            Time complexity: $O(m\sqrt n)$.
+            \lstinputlisting{src/graph/hopcroft.cpp}
+        \subsubsection{General Matching}
+            Time complexity: $O(n^3)$. Probability: $1-\displaystyle\frac n{\textbf{mod}}$.
+            \lstinputlisting{src/graph/matching.cpp}
+\section{String}
+    \subsection{Knuth Morris Pratt}
+        The length of longest border of $s_{0\dots i}$ is $p_i$.
+        \lstinputlisting{src/string/kmp.cpp}
+    \subsection{Manacher}
+        $s_{i-j}=s_{i+j}$ for $j<p_i$.
+        \lstinputlisting{src/string/manacher.cpp}
+    \subsection{Z-Function}
+        The length of longest common prefix of $s$ and $s_{i\dots|s|-1}$ is $z_i$.
+        \lstinputlisting{src/string/z.cpp}
+    \subsection{Lyndon Factorization}
+        \lstinputlisting{src/string/duval.cpp}
+    \subsection{Suffix Array}
+        \lstinputlisting{src/string/suffix array.cpp}
+    \subsection{Aho Corasick}
+        \lstinputlisting{src/string/acam.cpp}
+    \subsection{Palindromic Automaton}
+        \lstinputlisting{src/string/pam.cpp}
+    \subsection{Suffix Automaton}
+        \lstinputlisting{src/string/sam.cpp}
+\section{Geometry}
+    \subsection{Convex Hull}
+        \lstinputlisting{src/geometry/convex.cpp}
+\section{Number Theory}
+    \subsection{Modular Arithmetic}
+        \subsubsection{Multiplication}
+            \lstinputlisting{src/number theory/modular arithmetic/mul.cpp}
+        \subsubsection{Sqrt(Cipolla)}
+            $p$ is prime.
+            \lstinputlisting{src/number theory/modular arithmetic/sqrt.cpp}
+        \subsubsection{Log(Baby-Step Giant-Step)}
+            \lstinputlisting{src/number theory/modular arithmetic/log.cpp}
+    \subsection{Miller Rabin}
+        \lstinputlisting{src/number theory/rabin.cpp}
+    \subsection{Pollard Rho}
+        \lstinputlisting{src/number theory/rho.cpp}
+    \subsection{Extended Euclid}
+        \lstinputlisting{src/number theory/exgcd.cpp}
+    \subsection{Chinese Remainder Theorem}
+        \lstinputlisting{src/number theory/crt.cpp}
+\section{Numerical}
+    \subsection{Matrix Inverse and Rank}
+        $A^{-1}=A^{-1}(2I-AA^{-1})\pmod{p^k}$.
+        \lstinputlisting{src/numerical/matrix inverse.cpp}
+    \subsection{Golden Section Search}
+        \lstinputlisting{src/numerical/golden.cpp}
+    \subsection{Simpson}
+        \lstinputlisting{src/numerical/simpson.cpp}
+\section{Magic}
+    \subsection{Polynomial}
+        \lstinputlisting{src/polynomial/polynomial.cpp}
+    \subsection{Fast Subset Transform}
+        \lstinputlisting{src/polynomial/fwt.cpp}
+\end{document}
