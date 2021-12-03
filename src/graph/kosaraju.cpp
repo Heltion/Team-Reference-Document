@@ -1,19 +1,25 @@
-vector<int> kosaraju(const vector<vector<int>>& G){
-    int n = G.size(), c = 0;
-    vector<int> vis(n), res(n, -1), p;
-    vector<vector<int>> H(n);
-    function<void(int)> DFS1 = [&](int u){
+vector<vector<int>> kosaraju(int n, const vector<pair<int, int>>& edges){
+    vector<int> vis(n), p;
+    vector<vector<int>> res, G(n), Gt(n);
+    for (auto [a, b] : edges) {
+        G[a].push_back(b);
+        Gt[b].push_back(a);
+    }
+    function<void(int)> dfs = [&](int u){
         vis[u] = 1;
-        for(int v : G[u]) if(not vis[v]) DFS1(v);
+        for(int v : G[u]) if(not vis[v]) dfs(v);
         p.push_back(u);
     };
-    function<void(int)> DFS2 = [&](int u){
-        res[u] = c;
-        for(int v : H[u]) if(not ~res[v]) DFS2(v);
+    function<void(int)> dfst = [&](int u){
+        vis[u] = 0;
+        res.back().push_back(u);
+        for(int v : Gt[u]) if(vis[v]) dfst(v);
     };
-    for(int i = 0; i < n; i += 1) for(int j : G[i]) H[j].push_back(i);
-    for(int i = 0; i < n; i += 1) if(not vis[i]) DFS1(i);
+    for(int i = 0; i < n; i += 1) if(not vis[i]) dfs(i);
     reverse(p.begin(), p.end());
-    for(int i : p) if(not ~res[i]) DFS2(i), c += 1;
+    for(int i : p) if(vis[i]) {
+        res.emplace_back();
+        dfst(i);
+    }
     return res;
 }

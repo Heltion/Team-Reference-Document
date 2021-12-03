@@ -4,6 +4,8 @@
 \usepackage{geometry}
 \usepackage[T1]{fontenc}
 \usepackage{color}
+\usepackage[hidelinks]{hyperref}
+\geometry{left=1cm,right=1cm,top=1cm,bottom=1cm}
 \pagestyle{fancy}
 \fancyhead[L]{Team Reference Document}
 \fancyhead[R]{\thepage}
@@ -18,7 +20,7 @@
     commentstyle = \color{red}
 }
 \begin{document}
-\title{Programming Contest Template Libary}
+\title{Team Reference Document}
 \author{Heltion}
 \maketitle
 \newpage
@@ -41,19 +43,20 @@
     \subsection{Segment Beats!}
         \lstinputlisting{src/data structure/segment beats!.cpp}
 \section{Graph}
-    \subsection{Euler Circuit}
-        \lstinputlisting{src/graph/euler.cpp}
-    \subsection{Articulation Points}
-        \lstinputlisting{src/graph/articulation.cpp}
-    \subsection{Strongly Connected Component(Kosaraju)}
-        \lstinputlisting{src/graph/kosaraju.cpp}
-    \subsection{Dominator Tree(Lengauer-Tarjan)}
-        \lstinputlisting{src/graph/dominator.cpp}
-    \subsection{K-shortest Paths}
-        \lstinputlisting{src/graph/kwalk.cpp}
-    \subsection{Directed Minimum Spanning Tree}
-        Time complexity: unknown.
-        \lstinputlisting{src/graph/mst.cpp}
+
+
+    \subsection{Euler Circuit}\lstinputlisting{src/graph/euler.cpp}
+
+    \subsection{Strongly Connected Component(Kosaraju)}\lstinputlisting{src/graph/kosaraju.cpp}
+    
+    \subsection{K-shortest Paths}\lstinputlisting{src/graph/kwalk.cpp}
+
+    \subsection{Articulation Points}\lstinputlisting{src/graph/articulation.cpp}
+    
+    \subsection{Dominator Tree(Lengauer-Tarjan)}\lstinputlisting{src/graph/dominator.cpp}
+    
+    \subsection{Directed Minimum Spanning Tree}\lstinputlisting{src/graph/mst.cpp}
+    
     \subsection{Flow and Matching}
         \subsubsection{Maximum Flow(Dinic)}
             Time complexity: $O(n^2m)$.
@@ -66,8 +69,11 @@
         \subsubsection{Bipartite Matching(Hopcroft Karp)}
             Time complexity: $O(m\sqrt n)$.
             \lstinputlisting{src/graph/hopcroft.cpp}
-        \subsubsection{General Matching}
-            Time complexity: $O(n^3)$. Probability: $1-\displaystyle\frac n{\textbf{mod}}$.
+        \subsubsection{Weighted Bipartite Matching(Kuhn Munkres)}
+            Time complexity: $O(n^3)$.
+            \lstinputlisting{src/graph/km.cpp}
+        \subsubsection{General Matching(Blossom)}
+            Time complexity: $O(n^3)$.
             \lstinputlisting{src/graph/matching.cpp}
 \section{String}
     \subsection{Knuth Morris Pratt}
@@ -92,6 +98,8 @@
 \section{Geometry}
     \subsection{Convex Hull}
         \lstinputlisting{src/geometry/convex.cpp}
+    \subsection{Halfplane Intersection(TBD)}
+        \lstinputlisting{src/geometry/half.cpp}
 \section{Number Theory}
     \subsection{Modular Arithmetic}
         \subsubsection{Multiplication}
@@ -120,6 +128,6 @@
 \section{Magic}
     \subsection{Polynomial}
         \lstinputlisting{src/polynomial/polynomial.cpp}
-    \subsection{Fast Subset Transform}
+    \subsection{Fast Walsh Transform}
         \lstinputlisting{src/polynomial/fwt.cpp}
 \end{document}

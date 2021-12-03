@@ -1,49 +1,61 @@
-vector<int> directed_euler_circuit(int n, int m, const vector<vector<pair<int, int> > >& G){
-    vector<int> d(n);
-    for(const auto& A : G) for(auto p : A) d[p.first] += 1;
-    for(int i = 0; i < n; i += 1) if(G[i].size() != d[i]) return {};
-    vector<vector<pair<int, int> >::const_iterator> it(n);
-    for(int i = 0; i < n; i += 1) it[i] = G[i].begin();
-    vector<int> vis(m + 1), p;
-    function<void(int)> dfs = [&](int u){
-        for(auto& nxt = it[u]; nxt != G[u].end();)
-            if(not vis[nxt->second]){
-                vis[nxt->second] = 1;
-                int v = nxt->second;
-                dfs(nxt->first);
-                p.push_back(v);
+vector<int> undirected_circuit(int n, const vector<pair<int, int>>& edges) {
+    int m = edges.size();
+    vector<int> vis(m), res;
+    vector<vector<int>> G(n);
+    for (int i = 0; i < m; i += 1) {
+        G[edges[i].first].push_back(i + 1);
+        G[edges[i].second].push_back(-i - 1);
+    }
+    for (int i = 0; i < n; i += 1) if (G[i].size() & 1) return {};
+    vector<vector<int>::const_iterator> it(n);
+    for (int i = 0; i < n; i += 1) it[i] = G[i].begin();
+    function<void(int)> dfs = [&](int u) {
+        for (auto& nxt = it[u]; nxt != G[u].end(); ) {
+            int i = abs(*nxt) - 1;
+            if (not vis[i]) {
+                vis[i] = 1;
+                int w = *nxt;
+                dfs(*nxt >= 0 ? edges[i].second : edges[i].first);
+                res.push_back(-w);
             }
             else nxt = next(nxt);
+        }
     };
-    for(int i = 0; i < n; i += 1) if(not G[i].empty()){
+    for (int i = 0; i < n; i += 1) if (not G[i].empty()) {
         dfs(i);
         break;
     }
-    if(p.size() < m) return {};
-    reverse(p.begin(), p.end());
-    return p;
+    if (res.size() < m) return {};
+    return res;
 }
 
-vector<int> undirected_euler_circuit(int n, int m, const vector<vector<pair<int, int> > >& G){
-    for(const auto& A : G) if(A.size() & 1) return {};
-    vector<vector<pair<int, int> >::const_iterator> it(n);
-    for(int i = 0; i < n; i += 1) it[i] = G[i].begin();
-    vector<int> vis(m + 1), p;
-    function<void(int)> dfs = [&](int u){
-        for(auto& nxt = it[u]; nxt != G[u].end();)
-            if(not vis[abs(nxt->second)]){
-                vis[abs(nxt->second)] = 1;
-                int v = nxt->second;
-                dfs(nxt->first);
-                p.push_back(v);
+vector<int> directed_circuit(int n, const vector<pair<int, int>>& edges) {
+    int m = edges.size();
+    vector<int> d(n), vis(m), res;
+    vector<vector<int>> G(n);
+    for (int i = 0; i < m; i += 1) {
+        G[edges[i].first].push_back(i);
+        d[edges[i].second] += 1;
+    }
+    for (int i = 0; i < n; i += 1) if (G[i].size() != d[i]) return {};
+    vector<vector<int>::const_iterator> it(n);
+    for (int i = 0; i < n; i += 1) it[i] = G[i].begin();
+    function<void(int)> dfs = [&](int u) {
+        for (auto& nxt = it[u]; nxt != G[u].end(); ) {
+            if (not vis[*nxt]) {
+                vis[*nxt] = 1;
+                int w = *nxt;
+                dfs(edges[w].second);
+                res.push_back(w);
             }
             else nxt = next(nxt);
+        }
     };
-    for(int i = 0; i < n; i += 1) if(not G[i].empty()){
+    for (int i = 0; i < n; i += 1) if (not G[i].empty()) {
         dfs(i);
         break;
     }
-    if(p.size() < m) return {};
-    reverse(p.begin(), p.end());
-    return p;
+    if (res.size() < m) return {};
+    reverse(res.begin(), res.end());
+    return res;
 }

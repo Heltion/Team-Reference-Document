@@ -1,46 +1,65 @@
-vector<pair<int, int>> matching(int n, const vector<pair<int, int>>& vp){
-    vector<vector<LL>> mat(n, vector<LL>(n)), A;
-    mt19937 rand(0);
-    for(auto [u, v] : vp){
-        LL r = rand() % mod;
-        mat[u][v] = r;
-        mat[v][u] = (mod - r) % mod;
+vector<int> matching(int n, const vector<pair<int, int>>& edges) {
+    int time = 0;
+    vector<int> matched(n, -1), pre(n, -1), vis(n);
+    vector<vector<int>> G(n);
+    for (auto [x, y] : edges) {
+        G[x].push_back(y);
+        G[y].push_back(x);
     }
-    int r = matrix_inverse(A = mat), m = 2 * n - r, fi = 0, fj = 0;
-    assert(r % 2 == 0);
-    if(m != n) do{
-        mat.resize(m, vector<LL>(m));
-        for(int i = 0; i < n; i += 1){
-            mat[i].resize(m);
-            for(int j = n; j < m; j += 1){
-                LL r = rand() % mod;
-                mat[i][j] = r;
-                mat[j][i] = (mod - r) % mod;
-            }
-        }
-    }while(matrix_inverse(A = mat) != m);
-    vector<int> has(m, 1);
-    vector<pair<int, int>> res;
-    auto rem = [&](int fi, int fj){
-        LL a = power(A[fi][fj], mod - 2);
-        for(int i = 0; i < m; i += 1) if(has[i] and A[i][fj]){
-            LL b = A[i][fj] * a % mod;
-            for(int j = 0; j < m; j += 1) A[i][j] = (A[i][j] + mod -  A[fi][j] * b % mod) % mod;
-        }
-    };
-    for(int _ = 0; _ < m / 2; _ += 1){
-        int done = 0;
-        for(int i = 0; i < m and not done; i += 1) if(has[i])
-            for(int j = i + 1; j < m; j += 1) if(A[i][j] and mat[i][j]){
-                fi = i;
-                fj = j;
-                done = 1;
-                break;
-            }
-        if(fj < n) res.push_back({fi, fj});
-        has[fi] = has[fj] = 0;
-        rem(fi, fj);
-        rem(fj, fi);
-    }
-    return res;
+    for (int i = 0; i < n; i += 1)
+        if (matched[i] == -1)
+            [&](int s) {
+                vector<int> p(n), type(n, -1);
+                for (int i = 0; i < n; i += 1) p[i] = i;
+                function<int(int)> fp = [&](int u) {
+                    return u == p[u] ? u : p[u] = fp(p[u]);
+                };
+                queue<int> q;
+                auto push = [&](int u) {
+                    q.push(u);
+                    type[u] = 0;
+                };
+                push(s);
+                while (not q.empty()) {
+                    int u = q.front();
+                    q.pop();
+                    for (int v : G[u])
+                        if (type[v] == -1) {
+                            pre[v] = u, type[v] = 1;
+                            if (matched[v] == -1) {
+                                for (int x = u, y = v, tmp; x != -1; x = pre[y]) {
+                                    tmp = matched[x], matched[x] = y, matched[y] = x;
+                                    if ((y = tmp) == -1) break;
+                                }
+                                return;
+                            }
+                            push(matched[v]);
+                        }
+                        else if (not type[v] and fp(u) != fp(v)) {
+                            int w = [&](int u, int v) {
+                                for (time += 1, u = fp(u), v = fp(v); ; swap(u, v))
+                                    if (~u) {
+                                        if (vis[u] == time) return u;
+                                        vis[u] = time;
+                                        if (matched[u] == -1 or pre[matched[u]] == -1)
+                                            u = -1;
+                                        else u = fp(pre[matched[u]]);
+                                    }
+                            }(u, v);
+                            auto blossom = [&](int u, int v, int w) {
+                                while (fp(u) != w) {
+                                    pre[u] = v;
+                                    v = matched[u];
+                                    if (type[matched[u]] == 1) push(matched[u]);
+                                    if (p[u] == u) p[u] = w;
+                                    if (p[v] == v) p[v] = w;
+                                    u = pre[v];
+                                }
+                            };
+                            blossom(u, v, w);
+                            blossom(v, u, w);
+                        }
+                }
+            }(i);
+    return matched;
 }
